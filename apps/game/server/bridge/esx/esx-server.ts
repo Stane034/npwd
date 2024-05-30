@@ -6,7 +6,7 @@ import { Strategy } from '../framework-strategy';
 export class ESXFramework implements Strategy {
   constructor() {
     mainLogger.info('Loading ESX bridge....');
-
+    const ESX  = global.exports['es_extended'].getSharedObject();
     config.general.useResourceIntegration = true;
     config.database.identifierColumn = 'identifier';
     config.database.phoneNumberColumn = 'phone_number';
@@ -16,8 +16,6 @@ export class ESXFramework implements Strategy {
 
   init(): void {
     on('esx:playerLoaded', async (playerId: number, xPlayer: any) => {
-        const ESX  = global.exports['es_extended'].getSharedObject();
-
         if (!xPlayer) {
             xPlayer = ESX.GetPlayerFromId(playerId);
         }
@@ -39,7 +37,6 @@ export class ESXFramework implements Strategy {
 
   onStart(): void {
     on('onServerResourceStart', async (resource: string) => {
-      const ESX  = global.exports['es_extended'].getSharedObject();
 
       if (resource === GetCurrentResourceName()) {
         const xPlayers = ESX.GetPlayers();
